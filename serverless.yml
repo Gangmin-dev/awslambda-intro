@@ -22,6 +22,9 @@ frameworkVersion: "2"
 
 custom:
   env: ${file(./env/${opt:stage, 'local'}.json)}
+  prune:
+    automatic: ture
+    number: 5
 
 provider:
   name: aws
@@ -74,6 +77,14 @@ functions:
       - http:
           path: hello/get
           method: get
+          cors: true
+  user:
+    handler: handler.user
+    events:
+      - http:
+          path: user/{id}
+          method: post
+          cors: true
 #    The following are a few example events you can configure
 #    NOTE: Please make sure to change your handler code to work with those events
 #    Check the event documentation for details
@@ -125,3 +136,7 @@ functions:
 #     NewOutput:
 #       Description: "Description for the output"
 #       Value: "Some output value"
+
+plugins:
+  - serverless-offline
+  - serverless-prune-plugin

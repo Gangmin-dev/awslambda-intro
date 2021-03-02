@@ -1,6 +1,20 @@
 "use strict";
+const { env } = require("process");
 const dbModule = require("./module/db_module");
 const httpModule = require("./module/http_module");
+
+module.exports.user = async (event) => {
+  if (event.headers)
+    console.log("Request Header -> User-Agent :", event.headers["User-Agent"]);
+  if (event.body) console.log("Request Body ->", event.body);
+  if (event.pathParameters && event.pathParameters.id)
+    console.log("Request PathParameter -> id :", event.pathParameters.id);
+  if (event.queryStringParameters && event.queryStringParameters.isValid)
+    console.log(
+      "Request queryString -> isValid :",
+      event.queryStringParameters.isValid
+    );
+};
 
 module.exports.hello = async (event) => {
   const [dbResult, httpResult] = await Promise.all([
